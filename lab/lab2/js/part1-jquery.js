@@ -95,6 +95,8 @@ var Stamen_TonerLite = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/ton
     favorite color. Don't spend too much time on thinking about the perfect object to represent with
     this form, just about anything will do.
 
+
+
   Task 2: Setting (writing) input values
     *NOTE*: An input's value is not the same as an HTML element's text. We use $(selector).val() as
             opposed to $(selector).text() in this case.
@@ -169,5 +171,64 @@ var Stamen_TonerLite = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/ton
 // the function passed to `ready` until the HTML document is fully loaded and all scripts have
 // been interpreted. It is, therefore, an example of asynchronous behavior.
 $(document).ready(function() {
+
+  // Set the names of each input item
+  $('h1').first().text("Offender Description");
+  $('label:nth(0)').text("Name");
+  $('label:nth(1)').text("Gender");
+  $('label:nth(2)').text("Race");
+  $('label:nth(3)').text("Age");
+  $('label:nth(4)').text("Gang Affiliation");
+  $('label:nth(5)').text("Under age 18");
+  $('label:nth(6)').text("Favorite Color");
+  longInput = jQuery('<br><br><label>Arrest Location Longitude</label><input type = "number">');
+  latInput = jQuery('<br><br><label>Arrest Location Latitude</label><input type = "number">');
+  crimeDescript = jQuery('<br><br><label>Offense Description</label><br><input type = "input-text">');
+  $('input:nth(6)').after(longInput);
+  $('input:nth(7)').after(latInput);
+  $('input:nth(8)').after(crimeDescript);
+
+  // Set default values
+  $('input:nth(0)').prop('defaultValue', 'Ben Franklin');
+  $('input:nth(1)').prop('defaultValue', 'Male');
+  $('input:nth(2)').prop('defaultValue', 'White');
+  $('input:nth(3)').prop('defaultValue', 311);
+  $('input:nth(6)').prop('defaultValue', '#4286f4');
+  $('input:nth(7)').prop('defaultValue', -75.18197);
+  $('input:nth(8)').prop('defaultValue', 39.95578);
+  $('input:nth(9)').prop('defaultValue', 'Cat burglary');
+
+  // Set the value of each input item
+  $('input:nth(0)').val("John Smith");
+  $('input:nth(1)').val("Male");
+  $('input:nth(2)').val("White");
+  $('input:nth(3)').val(50);
+  $('input:nth(4)').prop('checked', false);
+  $('input:nth(5)').prop('checked', false);
+  $('input:nth(6)').val("#CC0000");
+
+  // Make data object
+  $( "button" ).click(function() {
+    if (typeof markers != "undefined") {
+      map.removeLayer(markers);
+    }
+    var criminal = {
+      'name': $('input:nth(0)').val(),
+      'gender': $('input:nth(1)').val(),
+      'race': $('input:nth(2)').val(),
+      'age': $('input:nth(3)').val(),
+      'gang': $('input:nth(4)').prop('checked'),
+      'minor': $('input:nth(5)').prop('checked'),
+      'color': $('input:nth(6)').val(),
+      'longitude':  $('input:nth(7)').val(),
+      'latitude':  $('input:nth(8)').val(),
+      'description':  $('input:nth(9)').val()
+    };
+     markers = L.circleMarker([criminal.latitude, criminal.longitude], {color: criminal.color}).addTo(map).bindPopup(criminal.description);
+
+  });
+
+
+
   // Do your stuff here
 });
